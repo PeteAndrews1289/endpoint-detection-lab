@@ -6,7 +6,7 @@ This project is an endpoint security lab that demonstrates how attacker behavior
 
 The lab models a small attacker-and-victim environment using a Kali Linux VM, a Windows 10 endpoint, Sysmon, Splunk Universal Forwarder, and Splunk Enterprise. It is designed to generate detection-worthy endpoint telemetry from common adversary behaviors such as scanning, credential dumping, persistence, suspicious PowerShell usage, and administrative account creation.
 
-The repository is currently documentation-focused. The README describes the intended lab design and detection workflow, while future iterations should add the actual Sysmon configuration, Splunk queries, screenshots, and sample logs to make the evidence stronger.
+The repository is documentation-focused, but it now includes reusable detection query templates, setup notes, attack simulation planning, and incident response scenarios. Those text artifacts make the detection workflow reviewable even without recreating lab screenshots.
 
 ## Key Features
 
@@ -14,6 +14,8 @@ The repository is currently documentation-focused. The README describes the inte
 - Modeled an attacker system with Kali Linux and a target endpoint with Windows 10.
 - Planned attack simulations for reconnaissance, credential dumping, privilege escalation, persistence, and suspicious process execution.
 - Defined detection areas for LSASS access, administrative account creation, scheduled tasks, PowerShell activity, and network reconnaissance.
+- Added reusable Splunk SPL templates for Sysmon and Windows Security detections.
+- Added setup notes for Sysmon telemetry and Splunk Universal Forwarder ingestion.
 - Included a SOC-style investigation workflow for correlating process, user, and network activity.
 - Identified future improvements for alerting, additional telemetry, lateral movement scenarios, and environment automation.
 
@@ -80,26 +82,24 @@ The Splunk workflow demonstrates how a SOC analyst can investigate suspicious ac
 3. Planned Splunk Universal Forwarder installation to ship endpoint logs to Splunk Enterprise.
 4. Defined attack simulations for scanning, suspicious PowerShell usage, credential dumping, local administrator changes, and scheduled task persistence.
 5. Outlined detection logic for process access, user creation, persistence, and reconnaissance events.
-6. Documented a basic incident response workflow for reviewing alerts and tracing attacker activity.
+6. Added Splunk query templates for process creation, PowerShell, LSASS access, account changes, scheduled tasks, and network reconnaissance.
+7. Documented a basic incident response workflow for reviewing alerts and tracing attacker activity.
 
 ## Results / Findings
 
-The current repository documents the intended lab architecture, attack scenarios, and detection goals. It clearly maps endpoint attack behaviors to the telemetry needed for detection, but it does not yet include populated detection files, screenshots, or sample event logs.
+The repository documents the intended lab architecture, attack scenarios, detection goals, setup notes, and reusable SPL query templates. It clearly maps endpoint attack behaviors to the telemetry needed for detection and gives reviewers concrete detection logic to inspect.
 
 The main finding from the design is that endpoint-level telemetry fills a major visibility gap left by infrastructure-only logging. Process execution, credential access attempts, persistence mechanisms, and command-line behavior require host logs and SIEM analysis to investigate effectively.
 
-## Screenshots
+## Evidence / Artifacts
 
-Suggested screenshots to add:
+Text-based evidence included in this repository:
 
-- `screenshots/sysmon-installation.png`
-- `screenshots/windows-event-viewer-sysmon.png`
-- `screenshots/splunk-endpoint-ingestion.png`
-- `screenshots/nmap-scan-detection.png`
-- `screenshots/lsass-access-detection.png`
-- `screenshots/scheduled-task-detection.png`
-- `screenshots/powershell-activity-dashboard.png`
-- `screenshots/architecture.png`
+- `detection/splunk-queries.md`
+- `attack-simulation/attacks.md`
+- `incident-response/scenarios.md`
+- `setup/sysmon-install.md`
+- `setup/splunk-forwarder.md`
 
 ## Challenges & Lessons Learned
 
@@ -107,7 +107,7 @@ Suggested screenshots to add:
 - Sysmon is powerful, but it requires thoughtful configuration to avoid noisy or incomplete logging.
 - Parent-child process relationships provide important context during endpoint investigations.
 - Credential dumping and persistence often require process-level visibility rather than only authentication logs.
-- This repo would be significantly stronger with real logs, detection queries, and screenshots from the lab.
+- Sanitized sample events would be the next strongest evidence upgrade.
 
 ## Relevance to Security Roles
 
@@ -117,10 +117,8 @@ It is also useful for Security Engineer roles because it demonstrates how endpoi
 
 ## Future Improvements
 
-- Populate `detection/splunk-queries.md` with actual SPL detection queries.
 - Add a Sysmon configuration file or link to the configuration used.
 - Add sanitized sample Sysmon events for each attack scenario.
-- Include screenshots from Splunk searches and dashboards.
 - Add a short incident report for one simulated attack path.
 - Expand scenarios to include lateral movement, remote service creation, and suspicious registry changes.
 - Automate lab setup with scripts or infrastructure notes.
